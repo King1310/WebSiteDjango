@@ -1,8 +1,10 @@
+from lib2to3.fixes.fix_input import context
+
 from django.http import HttpResponse
 from django.shortcuts import render
 
 def index(request):
     return render(request, 'main/index.html')
 
-def about(request):
-    return HttpResponse('about page')
+def contact(requset):
+    return render(requset, 'main/contact.html')
