@@ -8,3 +8,6 @@ def index(request):
 
 def contact(requset):
     return render(requset, 'main/contact.html')
+
+def shop(requset):
+    return render(requset, 'main/shop.html')
