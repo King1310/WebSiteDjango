@@ -1,3 +1,4 @@
+from itertools import product
 from lib2to3.fixes.fix_input import context
 
 from django.http import HttpResponse
@@ -17,4 +18,5 @@ def contact(requset):
 
 def shop(requset):
     category = Category.objects.all() # извлекаем все категории
-    return render(requset, 'main/shop.html', {'category': category})
+    product = Product.objects.all()
+    return render(requset, 'main/shop.html', {'category': category, 'product': product})
