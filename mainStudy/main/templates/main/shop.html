@@ -1,4 +1,5 @@
 {% load static %}
+{% load main_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -433,6 +434,7 @@
 							<div class="product_grid_border"></div>
 
 							<!-- Product Item -->
+                            {% tag_categories as category%}
                             {% for product in product %}
 							<div class="product_item {% if product.is_new %} is_new {% elif product.is_sale %} discount {% endif %}">
 								<div class="product_border"></div>

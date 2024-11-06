@@ -9,7 +9,6 @@ from unicodedata import category
 
 
 def index(request):
-    category = Category.objects.all()
     return render(request, 'main/index.html', {'category': category})
 
 def contact(requset):
