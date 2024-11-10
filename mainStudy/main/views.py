@@ -9,13 +9,19 @@ from unicodedata import category
 
 
 def index(request):
+    category = Category.objects.all()
     return render(request, 'main/index.html', {'category': category})
 
 def contact(requset):
-    category = Category.objects.all()
+    category = Category.objects.all()     # извлекаем все категории
     return render(requset, 'main/contact.html', {'category': category})
 
 def shop(requset):
-    category = Category.objects.all() # извлекаем все категории
     product = Product.objects.all()
     return render(requset, 'main/shop.html', {'category': category, 'product': product})
+
+def product(request, product_slug):
+    category = Category.objects.all()
+    product = Product.objects.get(slug=product_slug)
+    return render(request, 'main/shop/product.html', {'category': category, 'product': product})
+
