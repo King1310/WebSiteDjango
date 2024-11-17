@@ -624,7 +624,7 @@
 						<div class="footer_title">Find it Fast</div>
 						<ul class="footer_list">
                             {% for category in category %}
-							    <li><a href="#">{{ category.name }}</a></li>
+							    <li><a href="{% url 'main:shopCat' category.slug %}">{{ category.name }}</a></li>
                                 {% endfor %}
 						</ul>
 						<div class="footer_subtitle"></div>

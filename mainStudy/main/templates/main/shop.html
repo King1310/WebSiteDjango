@@ -368,7 +368,7 @@
 							<ul class="sidebar_categories">
                                 {% tag_categories as category%}
                                 {% for category in category %}
-								<li><a href="#">{{ category.name }}</a></li>
+								<li><a href="{% url "main:shopCat" category.slug %}">{{ category.name }}</a></li>
                                 {% endfor %}
 							</ul>
 						</div>
@@ -476,9 +476,9 @@
 						<div class="shop_page_nav d-flex flex-row">
 							<div class="page_prev d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-left"></i></div>
 							<ul class="page_nav d-flex flex-row">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
+								{% for page in product.paginator.page_range %}
+								<li><a href="{% url "main:shopPage" page%}">{{ page }}</a></li>
+								{% endfor %}
 								<li><a href="#">...</a></li>
 								<li><a href="#">21</a></li>
 							</ul>
@@ -700,9 +700,10 @@
 					<div class="footer_column">
 						<div class="footer_title">Find it Fast</div>
 						<ul class="footer_list">
+                            {% tag_categories as category %}
                             {% for category in category %}
-								<li><a href="#">{{ category.name }}</a></li>
-                                {% endfor %}
+								<li><a href="{% url "main:shopCat" category.slug %}">{{ category.name }}</a></li>
+                            {% endfor %}
 						</ul>
 						<div class="footer_subtitle"></div>
 					</div>

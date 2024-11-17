@@ -1,8 +1,9 @@
 from itertools import product
 from lib2to3.fixes.fix_input import context
 
+from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 
 from main.models import Category, Product
 from unicodedata import category
@@ -16,9 +17,19 @@ def contact(requset):
     category = Category.objects.all()     # извлекаем все категории
     return render(requset, 'main/contact.html', {'category': category})
 
-def shop(requset):
-    product = Product.objects.all()
-    return render(requset, 'main/shop.html', {'category': category, 'product': product})
+def shop(requset, category_slug = None, page=1):
+
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        product = Product.objects.filter(category=category)
+    else:
+        category = None
+        product = Product.objects.all()
+
+    paginator = Paginator(product, 7)
+    current_page = paginator.page(page)
+
+    return render(requset, 'main/shop.html', {'category': category, 'product': current_page, 'slug_url': category_slug})
 
 def product(request, product_slug):
     category = Category.objects.all()
