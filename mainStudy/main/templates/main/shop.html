@@ -231,7 +231,7 @@
 											<li><a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a></li>
 											<li><a href="regular.html">Regular Post<i class="fas fa-chevron-down"></i></a></li>
 											<li><a href="cart.html">Cart<i class="fas fa-chevron-down"></i></a></li>
-											<li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+											<li><a href="{% url "main:contact" %}">Contact<i class="fas fa-chevron-down"></i></a></li>
 										</ul>
 									</li>
 									<li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
@@ -474,15 +474,20 @@
 						<!-- Shop Page Navigation -->
 
 						<div class="shop_page_nav d-flex flex-row">
-							<div class="page_prev d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-left"></i></div>
+							<div class="page_prev d-flex flex-column align-items-center justify-content-center {% if not product.has_previous %} disabled {% endif %}">
+                                <a href="{% if product.has_previous %}{% url 'main:shopPage' product.previous_page_number %}{% else %} # {% endif %}">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </div>
 							<ul class="page_nav d-flex flex-row">
 								{% for page in product.paginator.page_range %}
 								<li><a href="{% url "main:shopPage" page%}">{{ page }}</a></li>
 								{% endfor %}
-								<li><a href="#">...</a></li>
-								<li><a href="#">21</a></li>
 							</ul>
-							<div class="page_next d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-right"></i></div>
+							<div class="page_next d-flex flex-column align-items-center justify-content-center {% if not product.has_next %} disabled {% endif %}">
+                                <a href="{% if product.has_next %}{% url 'main:shopPage' product.next_page_number %}{% else %} # {% endif %}">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
 						</div>
 
 					</div>
