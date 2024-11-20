@@ -17,7 +17,9 @@ def contact(requset):
     category = Category.objects.all()     # извлекаем все категории
     return render(requset, 'main/contact.html', {'category': category})
 
-def shop(requset, category_slug = None, page=1):
+def shop(requset, category_slug = None):
+
+    page = requset.GET.get('page', 1)
 
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
@@ -27,7 +29,7 @@ def shop(requset, category_slug = None, page=1):
         product = Product.objects.all()
 
     paginator = Paginator(product, 7)
-    current_page = paginator.page(page)
+    current_page = paginator.page(int(page))
 
     return render(requset, 'main/shop.html', {'category': category, 'product': current_page, 'slug_url': category_slug})
 
