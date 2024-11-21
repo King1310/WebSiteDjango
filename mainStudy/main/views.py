@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 
 from main.models import Category, Product
+from main.utils import q_search
 from unicodedata import category
 
 
@@ -20,12 +21,16 @@ def contact(requset):
 def shop(requset, category_slug = None):
 
     page = requset.GET.get('page', 1)
+    query = requset.GET.get('q', None)
+
+    category = None
 
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         product = Product.objects.filter(category=category)
+    elif query:
+        product = q_search(query)
     else:
-        category = None
         product = Product.objects.all()
 
     paginator = Paginator(product, 7)

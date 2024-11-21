@@ -86,8 +86,8 @@
 						<div class="header_search">
 							<div class="header_search_content">
 								<div class="header_search_form_container">
-									<form action="#" class="header_search_form clearfix">
-										<input type="search" required="required" class="header_search_input" placeholder="Search for products...">
+									<form action="{% url 'main:search' %}" method="get" class="header_search_form clearfix">
+										<input type="search" required="required" name="q" class="header_search_input" placeholder="Search for products...">
 										<div class="custom_dropdown">
 											<div class="custom_dropdown_list">
 												<span class="custom_dropdown_placeholder clc">All Categories</span>
@@ -368,7 +368,12 @@
 							<ul class="sidebar_categories">
                                 {% tag_categories as category%}
                                 {% for category in category %}
-								<li><a href="{% url "main:shopCat" category.slug %}">{{ category.name }}</a></li>
+								<li>
+                                    <a href="{% url "main:shopCat" category.slug %}">{{ category.name }}</a>
+                                    {% if category.slug == slug_url %}
+                                        <a href="{% url 'main:shop' %}" class="remove-category" title="Remove category">&times;</a>
+                                    {% endif %}
+                                </li>
                                 {% endfor %}
 							</ul>
 						</div>
@@ -380,17 +385,6 @@
 								<p>Range: </p>
 								<p><input type="text" id="amount" class="amount" readonly style="border:0; font-weight:bold;"></p>
 							</div>
-						</div>
-						<div class="sidebar_section">
-							<div class="sidebar_subtitle color_subtitle">Color</div>
-							<ul class="colors_list">
-								<li class="color"><a href="#" style="background: #b19c83;"></a></li>
-								<li class="color"><a href="#" style="background: #000000;"></a></li>
-								<li class="color"><a href="#" style="background: #999999;"></a></li>
-								<li class="color"><a href="#" style="background: #0e8ce4;"></a></li>
-								<li class="color"><a href="#" style="background: #df3b3b;"></a></li>
-								<li class="color"><a href="#" style="background: #ffffff; border: solid 1px #e1e1e1;"></a></li>
-							</ul>
 						</div>
 						<div class="sidebar_section">
 							<div class="sidebar_subtitle brands_subtitle">Brands</div>
