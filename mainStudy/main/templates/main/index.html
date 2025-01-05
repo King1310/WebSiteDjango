@@ -55,7 +55,7 @@
                                 <div class="top_bar_user">
                                     <div class="user_icon"><img src="{% static "images/user.svg" %}" alt=""></div>
                                     <div><a href="#">Register</a></div>
-                                    <div><a href="#">Sign in</a></div>
+                                    <div><a href={% url "main:login" %}>Sign in</a></div>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                                                 <li><a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a></li>
                                                 <li><a href="regular.html">Regular Post<i class="fas fa-chevron-down"></i></a></li>
                                                 <li><a href="cart.html">Cart<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="{% url "main:contact" %}">Contact<i class="fas fa-chevron-down"></i></a></li>
                                             </ul>
                                         </li>
                                         <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
