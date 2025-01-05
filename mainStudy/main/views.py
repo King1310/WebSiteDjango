@@ -47,3 +47,7 @@ def login(request):
     category = Category.objects.all()
     return render(request, 'main/users/login.html', {'category': category})
 
+def registration(request):
+    category = Category.objects.all()
+    return render(request, 'main/users/registration.html', {'category': category})
+
