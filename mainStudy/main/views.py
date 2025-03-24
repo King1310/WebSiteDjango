@@ -43,11 +43,5 @@ def product(request, product_slug):
     product = Product.objects.get(slug=product_slug)
     return render(request, 'main/shop/product.html', {'category': category, 'product': product})
 
-def login(request):
-    category = Category.objects.all()
-    return render(request, 'main/users/login.html', {'category': category})
 
-def registration(request):
-    category = Category.objects.all()
-    return render(request, 'main/users/registration.html', {'category': category})
 
