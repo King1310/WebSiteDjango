@@ -54,10 +54,15 @@
 								</ul>
 							</div>
 							<div class="top_bar_user">
-								<div class="user_icon"><img src="{% static 'images/user.svg' %}" alt=""></div>
-								<div><a href="#">Register</a></div>
-								<div><a href="#">Sign in</a></div>
-							</div>
+                                <div class="user_icon"><img src="{% static "images/user.svg" %}" alt=""></div>
+                                    {% if user.is_authenticated %}
+                                        <div><a href="{% url 'users:profile' %}">Profile</a></div>
+                                        <div><a href="{% url 'users:logout' %}">Exit</a></div>
+                                    {% else %}
+                                        <div><a href={% url "users:registration" %}>Register</a></div>
+                                        <div><a href={% url "users:login" %}>Sign in</a></div>
+                                    {% endif %}
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -344,18 +349,22 @@
         <h1 style="color: #0e8ce4">Your OneTech</h1>
         <h3>Enter your login</h3>
 
-        <form action="">
-            <label for="first">
-                Username:
-            </label>
-            <input type="text" id="first" name="first"
-                placeholder="Enter your Username" required>
+        <form action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
 
-            <label for="password">
-                Password:
-            </label>
-            <input type="password" id="password" name="password"
-                placeholder="Enter your Password" required>
+            <label for="id_login_or_email">Username or Email:</label>
+            <input type="text" id="id_login_or_email" name="login_or_email"
+                   value="{{ form.login_or_email.value|default_if_none:'' }}"
+                   required />
+            {% if form.login_or_email.errors %}
+                <div class="error" style="color: red;">{{ form.login_or_email.errors }}</div>
+            {% endif %}
+
+            <label for="id_password">Password:</label>
+            <input type="password" id="id_password" name="password" required />
+            {% if form.password.errors %}
+                <div class="error" style="color: red;">{{ form.password.errors }}</div>
+            {% endif %}
 
             <div class="wrap">
                 <button type="submit" class="submit_button">
@@ -370,6 +379,7 @@
             </a>
         </p>
     </div>
+
 
     <!-- Newsletter -->
 
