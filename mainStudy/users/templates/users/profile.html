@@ -346,6 +346,44 @@
 	</header>
 
 
+    <div class="main_log">
+        <h1>Profile</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="profile-photo-container">
+            {% if user.image %}
+                <img src="{{ user.image.url }}" alt="Profile Photo" class="profile-photo" />
+                <button type="button" class="upload-btn" id="uploadBtn" title="Upload photo" style="position: absolute">+</button>
+            {% else %}
+                <button type="button" class="upload-btn" id="uploadBtn" title="Upload photo" style="position: absolute">+</button>
+            {% endif %}
+        </div>
+
+        <div class="user-info">
+            <p style="color: black "><strong style="color: black">Name:</strong> <span class="margin_user"> {{ user.first_name }} </span></p>
+        </div>
+        <div class="user-info">
+            <p style="color: black "><strong style="color: black">LastName:</strong> <span class="margin_user"> {{ user.last_name }} </span></p>
+        </div>
+        <div class="user-info">
+            <p style="color: black"><strong style="color: black">Login:</strong> <span class="margin_user" >{{ user.username }} </span></p>
+        </div>
+        <div class="user-info">
+            <p style="color: black "><strong style="color: black">Email:</strong> <span class="margin_user"> {{ user.email }} </span></p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <br>{{ form.photo }}<br />
+            <button type="submit">Upload Photo</button>
+        </form>
+    </div>
+
+
 
     <!-- Newsletter -->
 
@@ -459,6 +497,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</div>
 </div>
 
+<script src="{% static 'js/plus_script.js' %}"></script>
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>

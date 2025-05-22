@@ -85,3 +85,6 @@ class UserRegistrationForm(UserCreationForm):
                 self.add_error('password1', "Пароль должен содержать не менее 8 символов.")
 
         return cleaned_data
+
+class ProfilePhotoForm(forms.Form):
+    photo = forms.ImageField(label='Upload profile photo', required=True)
