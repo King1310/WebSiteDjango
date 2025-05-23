@@ -125,11 +125,11 @@
                                     <div class="cart_container d-flex flex-row align-items-center justify-content-end">
                                         <div class="cart_icon">
                                             <img src="{% static "images/cart.png" %}" alt="">
-                                            <div class="cart_count"><span>10</span></div>
+                                            <div class="cart_count"><span>{{ cart_item_count }}</span></div>
                                         </div>
                                         <div class="cart_content">
-                                            <div class="cart_text"><a href="#">Cart</a></div>
-                                            <div class="cart_price">$85</div>
+                                            <div class="cart_text"><a href="{% url 'carts:cart' %}">Cart</a></div>
+                                            <div class="cart_price">${{ total_price }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +139,6 @@
                 </div>
             </div>
 
-            <!-- Main Navigation -->
 
             <nav class="main_nav">
                 <div class="container">
