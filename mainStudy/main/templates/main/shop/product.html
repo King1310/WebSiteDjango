@@ -57,10 +57,15 @@
 								</ul>
 							</div>
 							<div class="top_bar_user">
-								<div class="user_icon"><img src="{% static "images/user.svg"%}" alt=""></div>
-								<div><a href="#">Register</a></div>
-								<div><a href="#">Sign in</a></div>
-							</div>
+                                    <div class="user_icon"><img src="{% static "images/user.svg" %}" alt=""></div>
+                                    {% if user.is_authenticated %}
+                                        <div><a href="{% url 'users:profile' %}">Profile</a></div>
+                                        <div><a href="{% url 'users:logout' %}">Exit</a></div>
+                                    {% else %}
+                                        <div><a href={% url "users:registration" %}>Register</a></div>
+                                        <div><a href={% url "users:login" %}>Sign in</a></div>
+                                    {% endif %}
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -121,17 +126,17 @@
 
 							<!-- Cart -->
 							<div class="cart">
-								<div class="cart_container d-flex flex-row align-items-center justify-content-end">
-									<div class="cart_icon">
-										<img src="{% static "images/cart.png"%}" alt="">
-										<div class="cart_count"><span>10</span></div>
-									</div>
-									<div class="cart_content">
-										<div class="cart_text"><a href="#">Cart</a></div>
-										<div class="cart_price">$85</div>
-									</div>
-								</div>
-							</div>
+                                <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+                                    <div class="cart_icon">
+                                        <img src="{% static 'images/cart.png' %}" alt="">
+                                        <div class="cart_count"><span>{{ total_quantity }}</span></div>  <!-- Отображаем количество товаров -->
+                                    </div>
+                                    <div class="cart_content">
+                                        <div class="cart_text"><a href="{% url 'carts:cart' %}">Cart</a></div>
+                                        <div class="cart_price">${{ total }}</div>  <!-- Отображаем общую сумму -->
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -375,29 +380,14 @@
 								<div class="clearfix" style="z-index: 1000;">
 
 									<!-- Product Quantity -->
-									<div class="product_quantity clearfix">
-										<span>Quantity: </span>
-										<input id="quantity_input" type="text" pattern="[0-9]*" value="1">
-										<div class="quantity_buttons">
-											<div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fas fa-chevron-up"></i></div>
-											<div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fas fa-chevron-down"></i></div>
-										</div>
-									</div>
-
-									<!-- Product Color -->
-									<ul class="product_color">
-										<li>
-											<span>Color: </span>
-											<div class="color_mark_container"><div id="selected_color" class="color_mark"></div></div>
-											<div class="color_dropdown_button"><i class="fas fa-chevron-down"></i></div>
-
-											<ul class="color_list">
-												<li><div class="color_mark" style="background: #999999;"></div></li>
-												<li><div class="color_mark" style="background: #b19c83;"></div></li>
-												<li><div class="color_mark" style="background: #000000;"></div></li>
-											</ul>
-										</li>
-									</ul>
+                                    <div class="product_quantity clearfix">
+                                        <span>Quantity: </span>
+                                        <input id="quantity_input" name="quantity" type="number" min="1" value="1" required>
+                                        <div class="quantity_buttons">
+                                            <div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fas fa-chevron-up"></i></div>
+                                            <div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fas fa-chevron-down"></i></div>
+                                        </div>
+                                    </div>
 
 								</div>
 
@@ -689,6 +679,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="{% static "plugins/OwlCarousel2-2.2.1/owl.carousel.js"%}"></script>
 <script src="{% static "plugins/easing/easing.js"%}"></script>
 <script src="{% static "js/product_custom.js"%}"></script>
+<script src="{% static "quantity_script.js"%}"></script>
 </body>
 
 </html>

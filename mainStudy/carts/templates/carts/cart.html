@@ -7,7 +7,7 @@
 <head>
 <title>Cart</title>
 <meta charset="utf-8">
-<meta name="description" content=<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" http-equiv="X-UA-Compatible">
 "OneTech shop project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href={% static "styles/bootstrap4/bootstrap.min.css"%}>
@@ -55,10 +55,15 @@
 								</ul>
 							</div>
 							<div class="top_bar_user">
-								<div class="user_icon"><img src={% static "images/user.svg" %} alt=""></div>
-								<div><a href="#">Register</a></div>
-								<div><a href="#">Sign in</a></div>
-							</div>
+                                    <div class="user_icon"><img src="{% static "images/user.svg" %}" alt=""></div>
+                                    {% if user.is_authenticated %}
+                                        <div><a href="{% url 'users:profile' %}">Profile</a></div>
+                                        <div><a href="{% url 'users:logout' %}">Exit</a></div>
+                                    {% else %}
+                                        <div><a href={% url "users:registration" %}>Register</a></div>
+                                        <div><a href={% url "users:login" %}>Sign in</a></div>
+                                    {% endif %}
+                                </div>
 						</div>
 					</div>
 				</div>
@@ -119,17 +124,17 @@
 
 							<!-- Cart -->
 							<div class="cart">
-								<div class="cart_container d-flex flex-row align-items-center justify-content-end">
-									<div class="cart_icon">
-										<img src={% static "images/cart.png" %} alt="">
-										<div class="cart_count"><span>10</span></div>
-									</div>
-									<div class="cart_content">
-										<div class="cart_text"><a href="#">Cart</a></div>
-										<div class="cart_price">$85</div>
-									</div>
-								</div>
-							</div>
+                                <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+                                    <div class="cart_icon">
+                                        <img src="{% static 'images/cart.png' %}" alt="">
+                                        <div class="cart_count"><span>{{ total_quantity }}</span></div>  <!-- Отображаем количество товаров -->
+                                    </div>
+                                    <div class="cart_content">
+                                        <div class="cart_text"><a href="{% url 'carts:cart' %}">Cart</a></div>
+                                        <div class="cart_price">${{ total }}</div>  <!-- Отображаем общую сумму -->
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -186,7 +191,7 @@
 
 							<div class="main_nav_menu ml-auto">
 								<ul class="standard_dropdown main_nav_dropdown">
-									<li><a href="index.html">Home<i class="fas fa-chevron-down"></i></a></li>
+									<li><a href="{% url "main:index" %}">Home<i class="fas fa-chevron-down"></i></a></li>
 									<li class="hassubs">
 										<a href="#">Super Deals<i class="fas fa-chevron-down"></i></a>
 										<ul>
@@ -222,7 +227,7 @@
 									<li class="hassubs">
 										<a href="#">Pages<i class="fas fa-chevron-down"></i></a>
 										<ul>
-											<li><a href="shop.html">Shop<i class="fas fa-chevron-down"></i></a></li>
+											<li><a href="{% url "main:shop" %}">Shop<i class="fas fa-chevron-down"></i></a></li>
 											<li><a href="product.html">Product<i class="fas fa-chevron-down"></i></a></li>
 											<li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
 											<li><a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a></li>
@@ -343,7 +348,7 @@
 
 	<!-- Cart -->
 
-	<div class="cart_section">
+    <div class="cart_section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1">
@@ -359,13 +364,15 @@
                                                 <div class="cart_item_title">Name</div>
                                                 <div class="cart_item_text">{{ item.product.name }}</div>
                                             </div>
-                                            <div class="cart_item_color cart_info_col">
-                                                <div class="cart_item_title">Color</div>
-                                                <div class="cart_item_text">{{ item.product.color }}</div>
-                                            </div>
                                             <div class="cart_item_quantity cart_info_col">
-                                                <div class="cart_item_title">Quantity</div>
-                                                <div class="cart_item_text">{{ item.quantity }}</div>
+                                            <div class="cart_item_title">Quantity</div>
+                                                <div class="cart_item_text ">
+                                                    <form action="{% url 'carts:cart_update' item.id %}" method="post" style="display:inline;">
+                                                        {% csrf_token %}
+                                                        <input type="number" id="quantity-{{ item.id }}" name="quantity" value="{{ item.quantity }}" min="1" style="width: 50px; outline: none; border: none;">
+                                                        <button type="submit" title="Update quantity" style="background: none; border: none; color: green; cursor: pointer; font-size: 20px; vertical-align: middle;">&#10004;</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_title">Price</div>
@@ -374,6 +381,12 @@
                                             <div class="cart_item_total cart_info_col">
                                                 <div class="cart_item_title">Total</div>
                                                 <div class="cart_item_text">${{ item.product.price|multiply:item.quantity }}</div>
+                                            </div>
+                                            <div class="cart_item_remove cart_info_col">
+                                                <form action="{% url 'carts:cart_remove' item.id %}" method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" style="background: none; border: none; color: red; cursor: pointer; font-size: 20px;">&#10006;</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </li>
@@ -390,14 +403,19 @@
                         </div>
 
                         <div class="cart_buttons">
-                            <button type="button" class="button cart_button_clear">Clear Cart</button>
+                            <form action="{% url 'carts:cart_clear' %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="button cart_button_clear">Clear Cart</button>
+                            </form>
                             <button type="button" class="button cart_button_checkout">Checkout</button>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -540,6 +558,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src={% static "plugins/greensock/ScrollToPlugin.min.js" %}></script>
 <script src={% static "plugins/easing/easing.js" %}></script>
 <script src={% static "js/cart_custom.js" %}></script>
+<script src={% static "quantity_script.js" %}></script>
+<script src={% static "quantity_add.js" %}></script>
 </body>
 
 </html>

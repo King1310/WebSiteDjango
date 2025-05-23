@@ -58,10 +58,15 @@
 								</ul>
 							</div>
 							<div class="top_bar_user">
-								<div class="user_icon"><img src="{% static 'images/user.svg' %}" alt=""></div>
-								<div><a href="#">Register</a></div>
-								<div><a href={% url "users:login" %}>Sign in</a></div>
-							</div>
+                                    <div class="user_icon"><img src="{% static "images/user.svg" %}" alt=""></div>
+                                    {% if user.is_authenticated %}
+                                        <div><a href="{% url 'users:profile' %}">Profile</a></div>
+                                        <div><a href="{% url 'users:logout' %}">Exit</a></div>
+                                    {% else %}
+                                        <div><a href={% url "users:registration" %}>Register</a></div>
+                                        <div><a href={% url "users:login" %}>Sign in</a></div>
+                                    {% endif %}
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -122,17 +127,17 @@
 
 							<!-- Cart -->
 							<div class="cart">
-								<div class="cart_container d-flex flex-row align-items-center justify-content-end">
-									<div class="cart_icon">
-										<img src="{% static 'images/cart.png' %}" alt="">
-										<div class="cart_count"><span>10</span></div>
-									</div>
-									<div class="cart_content">
-										<div class="cart_text"><a href="#">Cart</a></div>
-										<div class="cart_price">$85</div>
-									</div>
-								</div>
-							</div>
+                                <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+                                    <div class="cart_icon">
+                                        <img src="{% static 'images/cart.png' %}" alt="">
+                                        <div class="cart_count"><span>{{ total_quantity }}</span></div>  <!-- Отображаем количество товаров -->
+                                    </div>
+                                    <div class="cart_content">
+                                        <div class="cart_text"><a href="{% url 'carts:cart' %}">Cart</a></div>
+                                        <div class="cart_price">${{ total }}</div>  <!-- Отображаем общую сумму -->
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>

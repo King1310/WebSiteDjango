@@ -124,12 +124,12 @@
                                 <div class="cart">
                                     <div class="cart_container d-flex flex-row align-items-center justify-content-end">
                                         <div class="cart_icon">
-                                            <img src="{% static "images/cart.png" %}" alt="">
-                                            <div class="cart_count"><span>{{ cart_item_count }}</span></div>
+                                            <img src="{% static 'images/cart.png' %}" alt="">
+                                            <div class="cart_count"><span>{{ total_quantity }}</span></div>  <!-- Отображаем количество товаров -->
                                         </div>
                                         <div class="cart_content">
                                             <div class="cart_text"><a href="{% url 'carts:cart' %}">Cart</a></div>
-                                            <div class="cart_price">${{ total_price }}</div>
+                                            <div class="cart_price">${{ total }}</div>  <!-- Отображаем общую сумму -->
                                         </div>
                                     </div>
                                 </div>
@@ -353,7 +353,7 @@
                             <h1 class="banner_text">new era of smartphones</h1>
                             <div class="banner_price"><span>$530</span>$460</div>
                             <div class="banner_product_name">Apple Iphone 6s</div>
-                            <div class="button banner_button"><a href="#">Shop Now</a></div>
+                            <div class="button banner_button"><a href="{% url "main:shop" %}">Shop Now</a></div>
                         </div>
                     </div>
                 </div>
