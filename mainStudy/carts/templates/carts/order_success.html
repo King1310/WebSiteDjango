@@ -1,0 +1,103 @@
+{% load static %}
+{% load main_tags %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Заказ успешно создан</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgb(0 0 0 / 10%);
+            padding: 30px 40px;
+        }
+        h1 {
+            color: #0e8ce4;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .total {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #0e8ce4;
+            text-align: right;
+        }
+        .btn-home {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #0e8ce4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-home:hover {
+            background-color: #0664b0;
+        }
+        .btn-home:disabled {
+            background-color: #ccc; /* Цвет для неактивной кнопки */
+            cursor: not-allowed; /* Указатель для неактивной кнопки */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if cart_items %}
+            <h1>Поздравляем, ваш заказ успешно создан!</h1>
+            <h2>Ваш заказ:</h2>
+            <ul>
+                {% for item in cart_items %}
+                    <li>{{ item.product.name }} × {{ item.quantity }} — ${{ item.product.price|multiply:item.quantity }}</li>
+                {% endfor %}
+            </ul>
+            <div class="total">
+                Итого: ${{ total|floatformat:2 }}
+            </div>
+        {% else %}
+            <h1>Ваша корзина пуста.</h1>
+            <p>Пожалуйста, добавьте товары в корзину перед оформлением заказа.</p>
+        {% endif %}
+
+        <a href="{% url 'main:index' %}" class="btn-home" {% if not cart_items %}disabled{% endif %}>Вернуться на главную</a>
+    </div>
+</body>
+</html>
